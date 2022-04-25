@@ -1,0 +1,147 @@
+﻿<Window x:Class="QuizMVVM.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:QuizMVVM"
+        mc:Ignorable="d"
+        Title="QuizSolverApp" 
+        Height="450" 
+        Width="800"
+        Background="#222022">
+
+    <Window.Resources>
+        <Style TargetType="Button" x:Key="stylNastepnePytanie">
+            <Setter Property="Margin" Value="3"/>
+            <Setter Property="Background" Value="Green"/>
+            <Style.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="25"/>
+                </Style>
+            </Style.Resources>
+        </Style>
+        <Style TargetType="Button" x:Key="stylZakoncz">
+            <Setter Property="Margin" Value="3"/>
+            <Setter Property="Background" Value="Red"/>
+            <Style.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="25"/>
+                </Style>
+            </Style.Resources>
+        </Style>
+        
+        <Style TargetType="Button" x:Key="RoundButton">
+            <Style.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="30"/>
+                </Style>
+            </Style.Resources>
+            <Setter Property="Margin" Value="10"/>
+            <Setter Property="FontFamily" Value="Arial Black"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Image Source="C:\Users\bartj\Desktop\Studia\SEM IV\PROGRAMOWANIE OiG\logoquiz.png"
+               Grid.RowSpan="2"/>
+
+        <TextBlock Grid.Column="1"
+                   Grid.Row="0"
+                   Grid.ColumnSpan="3"
+                   Grid.RowSpan="2"
+                   FontFamily="Arial Black"
+                   FontSize="20"
+                   Foreground="White"
+                   Text="{Binding Question, Mode=OneWay}"
+                   TextAlignment="Center"
+                   VerticalAlignment="Center"/>
+
+        <TextBlock Grid.Column="4"
+                   Grid.Row="0"
+                   FontFamily="Arial Black"
+                   FontSize="30"
+                   Foreground="White"
+                   Text="{Binding TimerText, Mode=OneWay}"
+                   TextAlignment="Center"
+                   VerticalAlignment="Center"/>
+
+        <Button Grid.Column="0"
+                Grid.Row="2"
+                Grid.ColumnSpan="2"
+                Grid.RowSpan="2"
+                FontSize="30"
+                Style="{DynamicResource RoundButton}"
+                Content="{Binding AnswerA}"
+                Command="{Binding AnswerButtonCommand}" CommandParameter="A"/>
+        <Button Grid.Column="2"
+                Grid.Row="2"
+                Grid.ColumnSpan="2"
+                Grid.RowSpan="2"
+                FontSize="30"
+                Style="{DynamicResource RoundButton}"
+                Content="{Binding AnswerB}"
+                Command="{Binding AnswerButtonCommand}" CommandParameter="B"/>
+        <Button Grid.Column="0"
+                Grid.Row="4"
+                Grid.ColumnSpan="2"
+                Grid.RowSpan="2"
+                FontSize="30"
+                FontFamily="Arial Black"
+                Style="{DynamicResource RoundButton}"
+                Content="{Binding AnswerC}"
+                Command="{Binding AnswerButtonCommand}" CommandParameter="C"/>
+        <Button Grid.Column="2"
+                Grid.Row="4"
+                Grid.ColumnSpan="2"
+                Grid.RowSpan="2"
+                FontSize="30"
+                Style="{DynamicResource RoundButton}"
+                Content="{Binding AnswerD}"
+                Command="{Binding AnswerButtonCommand}" CommandParameter="D"/>
+
+        <TextBlock Grid.Column="4"
+                   Grid.Row="1"
+                   Text="{Binding Score}"
+                   FontFamily="Arial Black"
+                   FontSize="30"
+                   Foreground="White"
+                   TextAlignment="Center"
+                   VerticalAlignment="Center"/>
+
+        <Button Style="{StaticResource stylNastepnePytanie}"
+                Grid.Column="4"
+                Grid.Row="2"
+                Grid.RowSpan="2"
+                FontFamily="Arial Black"
+                FontSize="35"
+                Content="Next"
+                Margin="10,30,10,30"
+                Command="{Binding NextQuestionCommand}"/>
+
+        <Button Style="{StaticResource stylZakoncz}"
+                Grid.Column="4"
+                Grid.Row="4"
+                Grid.RowSpan="2"
+                FontSize="35"
+                FontFamily="Arial Black"
+                Content="End"
+                Margin="10,30,10,30"
+                Command="{Binding EndCommand}"/>
+    </Grid>
+</Window>
