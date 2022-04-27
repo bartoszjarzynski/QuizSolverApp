@@ -8,6 +8,7 @@
         Title="QuizSolverApp" 
         Height="450" 
         Width="800"
+        ResizeMode="NoResize"
         Background="#222022">
 
     <Window.Resources>
@@ -80,7 +81,7 @@
                    Text="{Binding TimerText, Mode=OneWay}"
                    TextAlignment="Center"
                    VerticalAlignment="Center"/>
-
+        
         <Button Grid.Column="0"
                 Grid.Row="2"
                 Grid.ColumnSpan="2"
@@ -133,7 +134,6 @@
                 Content="Next"
                 Margin="10,30,10,30"
                 Command="{Binding NextQuestionCommand}"/>
-
         <Button Style="{StaticResource stylZakoncz}"
                 Grid.Column="4"
                 Grid.Row="4"
@@ -143,5 +143,6 @@
                 Content="End"
                 Margin="10,30,10,30"
                 Command="{Binding EndCommand}"/>
+    
     </Grid>
 </Window>

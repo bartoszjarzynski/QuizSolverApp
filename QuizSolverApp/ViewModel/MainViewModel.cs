@@ -14,8 +14,8 @@ namespace QuizMVVM.ViewModel
 {
     public class MainViewModel : INotifyPropertyChanged
     {
+        #region ZMIENNE
 
-        // Odpowiedzi
         private string _answerA;
         private string _answerB;
         private string _answerC;
@@ -26,19 +26,19 @@ namespace QuizMVVM.ViewModel
 
         private bool _isThisLastQuestion;
 
-        // Timer
         private DispatcherTimer _dispatcherTimer = new DispatcherTimer(DispatcherPriority.Render);
         private int _totalSeconds = 0;
         private string _timerText;
 
-        // Deserializacja danych
         static JsonSerializerOptions options = new JsonSerializerOptions
         {
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
             WriteIndented = true
         };
 
-        
+        #endregion
+
+
         static string fileName = @"..\..\..\quiztestowy.json";
         static string jsonString = File.ReadAllText(fileName);
 
@@ -49,8 +49,7 @@ namespace QuizMVVM.ViewModel
         public MainViewModel()
 #pragma warning restore CS8618
         {
-            
-            // Wyświetlenie odpowiedzi
+            #region ODPOWIEDZI
             Question = quizClass?.Questions?[_questionNumber]?.Content?.ToString();
             AnswerA = quizClass?.Questions?[_questionNumber]?.Answers?[0]?.Content?.ToString();
             AnswerB = quizClass?.Questions?[_questionNumber]?.Answers?[1]?.Content?.ToString();
@@ -61,10 +60,11 @@ namespace QuizMVVM.ViewModel
 
             NextQuestionCommand = new RelayCommand(NextQuestion, CanGetNextQuestion);
             EndCommand = new RelayCommand(End);
+            #endregion
 
             Score = "Score: 0";
 
-            // Timer
+            #region TIMER
             TimerText = "";
 #pragma warning disable CS8622 // Dopuszczanie wartości null dla typów referencyjnych w typie parametru nie jest zgodne z docelowym delegatem (prawdopodobnie z powodu atrybutów dopuszczania wartości null).
             _dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
@@ -73,7 +73,7 @@ namespace QuizMVVM.ViewModel
             _dispatcherTimer.Start();
         }
 
-        
+
 
         // Timer
         public string TimerText
@@ -96,7 +96,9 @@ namespace QuizMVVM.ViewModel
             TimerText = string.Format("{0:ss} s", TimeSpan.FromSeconds(this._totalSeconds).Duration());
             CommandManager.InvalidateRequerySuggested();
         }
+        #endregion
 
+        #region KONSTRUKTORY
         public string AnswerA
         {
             get { return _answerA; }
@@ -132,9 +134,11 @@ namespace QuizMVVM.ViewModel
             get { return _score; }
             set { _score = value; OnPropertyChanged(); }
         }
+        #endregion
 
         public ICommand AnswerButtonCommand { get; set; }
 
+        #region ODPOWIEDZI
         private void AnswerButton(object obj)
         {
             if(obj as string == "A")
@@ -174,9 +178,11 @@ namespace QuizMVVM.ViewModel
                 }
             } 
         }
+        #endregion
 
         public ICommand NextQuestionCommand { get; set; }
 
+        #region NASTEPNE PYTANIE
         private void NextQuestion(object obj)
         {
             if (_questionNumber < quizClass?.Questions?.Count - 1)
@@ -191,18 +197,19 @@ namespace QuizMVVM.ViewModel
                 AnswerD = quizClass?.Questions?[_questionNumber]?.Answers?[3]?.Content?.ToString();
             }
         }
-
+        #endregion
         private bool CanGetNextQuestion(object obj) => !_isThisLastQuestion;
 
         public ICommand EndCommand { get; set; }
 
+        #region ZAKONCZENIE QUIZU
         private void End(object obj)
         {
             _dispatcherTimer.Stop();
             MessageBox.Show($"Your score: {Regex.Match(Score.ToString(), @"\d+").Value}\n" +
                 $"This quiz took you {TimerText.ToString()}!", "Quiz is finished!");
-           // Encypt(fileName);
         }
+        #endregion
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -213,8 +220,7 @@ namespace QuizMVVM.ViewModel
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-
-
+        #region SZYFROWANIE
         private void Encrypt_file(string filepath)
         {
             string file_content = File.ReadAllText(filepath);
@@ -226,9 +232,7 @@ namespace QuizMVVM.ViewModel
             string file_content = File.ReadAllText(filepath);
             return Encryption.Decrypt(file_content);
         }
-
-
-
+        #endregion
 
     }
 }
